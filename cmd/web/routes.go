@@ -17,5 +17,8 @@ func routes(handler *handlers.Repository) http.Handler {
 	mux.Get("/", handler.Home)
 	mux.Get("/about", handler.About)
 
+	fileServer := http.FileServer(http.Dir("./static"))
+	mux.Handle("/*", fileServer)
+
 	return mux
 }
