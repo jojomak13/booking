@@ -1,0 +1,19 @@
+{{ template "base" .}}
+
+{{ define "content" }}
+<div class="container">
+    <div class="row justify-center">
+        <div class="col">
+            <h1>About Page</h1>
+            <h2>Welcome, {{ .name }}</h2>
+            <strong>
+                {{ if ne .remote_ip nil }}
+                    Your IP is {{ .remote_ip }}
+                {{ else }}
+                    Your IP not available yet.
+                {{ end }}
+            </strong>
+        </div>
+    </div>
+</div>
+{{ end }}
