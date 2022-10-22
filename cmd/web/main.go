@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/alexedwards/scs/v2"
-	"github.com/jojomak13/booking/pkg/config"
-	"github.com/jojomak13/booking/pkg/handlers"
-	"github.com/jojomak13/booking/pkg/render"
+	"github.com/jojomak13/booking/core/config"
+	"github.com/jojomak13/booking/core/handlers"
+	"github.com/jojomak13/booking/core/render"
 	"log"
 	"net/http"
 	"time"

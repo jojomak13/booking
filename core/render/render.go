@@ -2,8 +2,9 @@ package render
 
 import (
 	"fmt"
-	"github.com/jojomak13/booking/pkg/config"
-	"github.com/jojomak13/booking/pkg/models"
+	"github.com/jojomak13/booking/core/config"
+	"github.com/jojomak13/booking/core/models"
+	"github.com/justinas/nosurf"
 	"html/template"
 	"log"
 	"net/http"
@@ -18,8 +19,15 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+// AddDefaultData bind some data in each render
+func AddDefaultData(data models.Json, r *http.Request) models.Json {
+	data["csrf_token"] = nosurf.Token(r)
+
+	return data
+}
+
 // RenderTemplate renders templates using html/template package
-func RenderTemplate(w http.ResponseWriter, tmpl string, data models.Json) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, data models.Json) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -32,6 +40,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, data models.Json) {
 	if !ok {
 		log.Fatal("There is no view called " + tmpl)
 	}
+
+	data = AddDefaultData(data, r)
 
 	err := t.Execute(w, data)
 	if err != nil {
