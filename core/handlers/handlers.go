@@ -6,6 +6,7 @@ import (
 	"github.com/jojomak13/booking/core/config"
 	"github.com/jojomak13/booking/core/models"
 	"github.com/jojomak13/booking/core/render"
+	"github.com/jojomak13/booking/core/validation"
 	"log"
 	"net/http"
 )
@@ -50,6 +51,30 @@ func (m *Repository) Major(w http.ResponseWriter, r *http.Request) {
 // General is the general page handler
 func (m *Repository) General(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "generals.page.tmpl", models.Json{})
+}
+
+// Reservation is the reservation page handler
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "reservation.page.tmpl", models.Json{})
+}
+
+func (m *Repository) Reserve(w http.ResponseWriter, r *http.Request) {
+	data := models.Reservation{
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
+		Email:     r.Form.Get("email"),
+		Phone:     r.Form.Get("phone"),
+	}
+
+	if errors := validation.New(data); errors != nil {
+		render.RenderTemplate(w, r, "reservation.page.tmpl", models.Json{
+			"errors": errors,
+			"data":   data,
+		})
+		return
+	}
+
+	w.Write([]byte("welcome jojo"))
 }
 
 // Search is the search page handler

@@ -1,0 +1,46 @@
+{{ template "base" .}}
+
+{{ define "content" }}
+<div class="container">
+    <h1 class="text-center my-5">Generals Quarters</h1>
+    <img class="img-fluid" src="/images/generals-quarters.png" alt="Generals Quarters">
+    <p class="lead my-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae, consequuntur cum deserunt dolore dolorem ipsam iure labore laudantium neque omnis perspiciatis quas reiciendis rerum tenetur totam vel vitae, voluptate?</p>
+
+    <form id="search" class="mt-5 col">
+        <input type="hidden" name="csrf_token" value="{{ .csrf_token }}">
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="date" name="start_date" class="form-control" id="start_date" required>
+                    <label for="start_date">From</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="date" name="end_date" class="form-control" id="end_date" required>
+                    <label for="end_date">To</label>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+{{ end }}
+
+{{ define "js" }}
+<script>
+    const myForm = document.getElementById('search')
+    myForm.addEventListener('submit', function(e){
+        e.preventDefault()
+
+        fetch('/availability', {
+            method: 'post',
+            body: new FormData(myForm)
+        })
+        .then(res => res.json())
+        .then(res => console.log(res))
+    })
+</script>
+{{ end }}

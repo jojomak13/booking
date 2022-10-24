@@ -18,6 +18,8 @@ func routes(handler *handlers.Repository) http.Handler {
 	mux.Get("/about", handler.About)
 	mux.Get("/major", handler.Major)
 	mux.Get("/general", handler.General)
+	mux.Get("/reservation", handler.Reservation)
+	mux.Post("/reservation", handler.Reserve)
 	mux.Post("/search", handler.Search)
 	mux.Post("/availability", handler.Availability)
 

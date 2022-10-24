@@ -1,0 +1,43 @@
+{{ template "base" .}}
+
+{{ define "content" }}
+<div class="container mt-5">
+    <h1>Make Reservation</h1>
+    <h5>Reservation Details</h5>
+
+    <form method="post" action="/reservation" class="mt-5 col">
+        <input type="hidden" name="csrf_token" value="{{ .csrf_token }}">
+        <div class="form-floating mb-3">
+            <input type="text" name="first_name" value="{{ .data.FirstName }}" class="form-control {{ with .errors.FirstName }} is-invalid {{end}}" id="first_name">
+            <label for="first_name">First Name</label>
+            {{ with .errors.FirstName }}
+            <span class="invalid-feedback">{{ . }}</span>
+            {{ end }}
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" name="last_name" value="{{ .data.LastName }}" class="form-control {{ with .errors.LastName }} is-invalid {{end}}" id="last_name">
+            <label for="last_name">Last Name</label>
+            {{ with .errors.LastName }}
+                <span class="invalid-feedback">{{ . }}</span>
+            {{ end }}
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" name="email" value="{{ .data.Email }}" class="form-control {{ with .errors.Email }} is-invalid {{end}}" id="email">
+            <label for="email">Email</label>
+            {{ with .errors.Email }}
+                <span class="invalid-feedback">{{ . }}</span>
+            {{ end }}
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" name="phone" value="{{ .data.Phone }}" class="form-control {{ with .errors.Phone }} is-invalid {{end}}" id="phone">
+            <label for="phone">Phone</label>
+            {{ with .errors.Phone }}
+                <span class="invalid-feedback">{{ . }}</span>
+            {{ end }}
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary">Make Reservation</button>
+        </div>
+    </form>
+</div>
+{{ end }}
