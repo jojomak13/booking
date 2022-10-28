@@ -74,7 +74,9 @@ func (m *Repository) Reserve(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("welcome jojo"))
+	m.App.Session.Put(r.Context(), "reservation", data)
+
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 // Search is the search page handler
@@ -101,4 +103,20 @@ func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
+}
+
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
+	data, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		log.Println("cannot get reservation from session")
+		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	m.App.Session.Remove(r.Context(), "reservation")
+
+	render.RenderTemplate(w, r, "reservation-summary.page.tmpl", models.Json{
+		"data": data,
+	})
 }

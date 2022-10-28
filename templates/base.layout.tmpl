@@ -40,6 +40,18 @@
         </div>
     </nav>
 
+    {{ with .error }}
+        <div class="alert alert-danger">{{ . }}</div>
+    {{ end }}
+
+    {{ with .warning }}
+        <div class="alert alert-warning">{{ . }}</div>
+    {{ end }}
+
+    {{ with .success }}
+        <div class="alert alert-succes">{{ . }}</div>
+    {{ end }}
+
     {{ block "content" .}}
     {{ end }}
 

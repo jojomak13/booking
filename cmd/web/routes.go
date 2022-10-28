@@ -22,6 +22,7 @@ func routes(handler *handlers.Repository) http.Handler {
 	mux.Post("/reservation", handler.Reserve)
 	mux.Post("/search", handler.Search)
 	mux.Post("/availability", handler.Availability)
+	mux.Get("/reservation-summary", handler.ReservationSummary)
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/*", fileServer)
